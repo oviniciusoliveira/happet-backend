@@ -17,5 +17,11 @@ import {
 
     @Column()
     password: string;
+
+    @Column()
+    password_reset_token: string;
+
+    @Column()
+    password_reset_expires: number;
   }
   

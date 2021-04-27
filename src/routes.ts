@@ -33,6 +33,9 @@ routes.get("/users/:id", UserController.show);
 routes.post("/users", UserController.create);
 routes.delete("/users/:id", loginRequired, UserController.delete);
 
+routes.post("/forgot-password", UserController.forgotPassword);
+routes.post("/reset-password", UserController.resetPassword);
+
 routes.post("/authenticate", AuthController.store);
 
 export default routes;
