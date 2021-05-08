@@ -17,6 +17,8 @@ const routes = Router();
 
 // Padrões de um controller: index, show, create, update, delete
 
+
+// ROTAS DE PET HOMES
 routes.get("/pet-homes", PetHomesController.index);
 routes.get("/pet-homes/:id", PetHomesController.show);
 routes.post("/pet-homes", upload.array("images"), PetHomesController.create);
@@ -28,14 +30,17 @@ routes.put(
 );
 routes.delete("/pet-homes/:id", loginRequired, PetHomesController.delete);
 
+
+// ROTAS DE USUARIO
 routes.get("/users", UserController.index);
 routes.get("/users/:id", UserController.show);
 routes.post("/users", UserController.create);
 routes.delete("/users/:id", loginRequired, UserController.delete);
 
+
+// ROTAS DE AUTENTICAÇÃO
 routes.post("/forgot-password", UserController.forgotPassword);
 routes.post("/reset-password", UserController.resetPassword);
-
 routes.post("/authenticate", AuthController.store);
 
 export default routes;

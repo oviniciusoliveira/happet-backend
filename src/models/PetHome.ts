@@ -33,6 +33,12 @@ export default class PetHome {
   @Column()
   open_on_weekends: boolean;
 
+  @Column()
+  is_accepted: boolean;
+
+  @Column()
+  whatsapp: string;
+
   @OneToMany(() => Image, (image) => image.petHome, {
     cascade: ['insert', 'update']
   })

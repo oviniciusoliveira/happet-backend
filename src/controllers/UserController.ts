@@ -39,7 +39,6 @@ export default {
     const userExist = await usersRepository.findOne({ email });
 
     if (userExist) {
-      console.log(userView.render(userExist));
       return response
         .status(400)
         .send({ error: "este email já está cadastrado" });
@@ -141,7 +140,6 @@ export default {
         });
       })
       .catch((err) => {
-        console.log(err);
         return response.json({
           error: "não foi possível enviar o email. tente novamente",
         });

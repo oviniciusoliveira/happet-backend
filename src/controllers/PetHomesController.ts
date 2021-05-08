@@ -1,7 +1,9 @@
 import { getRepository } from "typeorm";
 import PetHome from "./../models/PetHome";
+import Image from "./../models/Image";
 import petHomeView from "./../views/petHome_view";
 import * as Yup from "yup";
+import ImagesController from "./ImagesController";
 
 import { Request, Response } from "express";
 
@@ -33,6 +35,8 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends,
+      is_accepted,
+      whatsapp,
     } = request.body;
 
     const petHomesRepository = getRepository(PetHome);
@@ -42,6 +46,8 @@ export default {
       return { path: image.filename };
     });
 
+    console.log("criou com varias imagens: ", images);
+
     const data = {
       name,
       latitude,
@@ -50,6 +56,8 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends: open_on_weekends === "true",
+      is_accepted: is_accepted === "true",
+      whatsapp,
       images,
     };
 
@@ -61,6 +69,8 @@ export default {
       instructions: Yup.string().required(),
       opening_hours: Yup.string().required(),
       open_on_weekends: Yup.boolean().required(),
+      is_accepted: Yup.boolean().required(),
+      whatsapp: Yup.string().required(),
       images: Yup.array(
         Yup.object().shape({
           path: Yup.string().required(),
@@ -71,9 +81,10 @@ export default {
     await schema.validate(data, { abortEarly: false });
 
     const petHome = petHomesRepository.create(data);
+    console.log("petHome criado", petHome);
 
     await petHomesRepository.save(petHome);
-    response.status(201).json(petHome);
+    response.status(201).json({message: "Pet Home Criado"});
   },
 
   async update(request: Request, response: Response) {
@@ -86,11 +97,51 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends,
+      is_accepted,
+      whatsapp,
+      id_images_remove,
     } = request.body;
+    
 
     const petHomesRepository = getRepository(PetHome);
-    const petHome = await petHomesRepository.findOneOrFail({ id });
+    const imageRepository = getRepository(Image);
 
+    // delete images
+    if(id_images_remove) {
+      const images_ids = Array.isArray(id_images_remove) ? id_images_remove : Array(id_images_remove);
+
+      images_ids.forEach(async (image_id) => {
+        await imageRepository.delete(image_id);
+      })
+    }
+
+    const requestImages = request.files as Express.Multer.File[];
+
+    // add new images to database
+    if (requestImages) {
+      requestImages.forEach(async (image) => {
+        console.log(image);
+        const imageToSave = imageRepository.create({
+          path: image.filename,
+          petHome: id,
+        });
+        await imageRepository.save(imageToSave);
+        // const imageToSave = imageRepository.create({
+        //   path: image.filename,
+        // });
+        // await imageRepository.save(imageToSave);
+      });
+    }
+
+    // const images = requestImages.map((image) => {
+    //   return { path: image.filename};
+    // });
+
+    // imagesToInsert.forEach((image: any) =>
+    //   petHomesRepository.update(id, image)
+    // );
+
+    // update only data
     const data = {
       name,
       latitude,
@@ -99,8 +150,10 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends: open_on_weekends === "true",
+      is_accepted: is_accepted === "true",
+      whatsapp,
     };
-    
+
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       latitude: Yup.number().required(),
@@ -109,6 +162,8 @@ export default {
       instructions: Yup.string().required(),
       opening_hours: Yup.string().required(),
       open_on_weekends: Yup.boolean().required(),
+      is_accepted: Yup.boolean().required(),
+      whatsapp: Yup.string().required(),
       images: Yup.array(
         Yup.object().shape({
           path: Yup.string().required(),
@@ -117,10 +172,9 @@ export default {
     });
 
     await schema.validate(data, { abortEarly: false });
-    const newPetHome = await petHomesRepository.save(data);
+    const newPetHome = await petHomesRepository.update({ id }, data);
 
-    return response.status(201).json(newPetHome);
-
+    return response.status(201).json({message: "Pet Home Atualizado"});
   },
 
   async delete(request: Request, response: Response) {
@@ -128,6 +182,8 @@ export default {
     const petHomesRepository = getRepository(PetHome);
     let petHomeToRemove = await petHomesRepository.findOneOrFail({ id });
     await petHomesRepository.remove(petHomeToRemove);
-    return response.status(200).json({message: "Pet Home Deletado com Sucesso"});
+    return response
+      .status(200)
+      .json({ message: "Pet Home Deletado" });
   },
 };

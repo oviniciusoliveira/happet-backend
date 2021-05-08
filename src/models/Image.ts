@@ -18,4 +18,4 @@ export default class Image {
   @ManyToOne(() => PetHome, (petHome) => petHome.images)
   @JoinColumn({ name: "pet_home_id" })
   petHome: PetHome;
-}
+} 

@@ -12,6 +12,8 @@ export default {
       instructions: petHome.instructions,
       opening_hours: petHome.opening_hours,
       open_on_weekends: petHome.open_on_weekends,
+      is_accepted: petHome.is_accepted,
+      whatsapp: petHome.whatsapp,
       images: imagesView.renderMany(petHome.images),
     };
   },

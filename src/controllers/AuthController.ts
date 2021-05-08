@@ -12,7 +12,6 @@ export default {
     const { email, password } = request.body;
     if (!email || !password) {
       return response
-        .status(400)
         .json({ error: "informe um email e uma senha válida" });
     }
 
@@ -21,12 +20,12 @@ export default {
     const user = await usersRepository.findOne({ email });
 
     if (!user)
-      return response.status(400).json({ error: "email não cadastrado" });
+      return response.json({ error: "email não cadastrado" });
 
     const isPasswordValid = await bcryptjs.compare(password, user.password);
 
     if (!isPasswordValid)
-      return response.status(401).json({ error: "senha inválida" });
+      return response.json({ error: "senha inválida" });
 
     const { id } = user;
     const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET || "", {

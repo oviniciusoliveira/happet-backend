@@ -47,6 +47,15 @@ export class createPetHomes1618189129540 implements MigrationInterface {
             type: "boolean",
             default: false,
           },
+          {
+            name: "is_accepted",
+            type: "boolean",
+            default: false,
+          },
+          {
+            name: "whatsapp",
+            type: "varchar",
+          }
         ],
       })
     );
