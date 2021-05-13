@@ -46,8 +46,6 @@ export default {
       return { path: image.filename };
     });
 
-    console.log("criou com varias imagens: ", images);
-
     const data = {
       name,
       latitude,
@@ -81,7 +79,6 @@ export default {
     await schema.validate(data, { abortEarly: false });
 
     const petHome = petHomesRepository.create(data);
-    console.log("petHome criado", petHome);
 
     await petHomesRepository.save(petHome);
     response.status(201).json({message: "Pet Home Criado"});
@@ -120,7 +117,6 @@ export default {
     // add new images to database
     if (requestImages) {
       requestImages.forEach(async (image) => {
-        console.log(image);
         const imageToSave = imageRepository.create({
           path: image.filename,
           petHome: id,

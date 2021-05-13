@@ -68,7 +68,7 @@ export default {
 
     await usersRepository.save(user);
 
-    return response.status(201).json(userView.render(user));
+    return response.status(201).json({user: userView.render(user), success: "Usuário cadastrado com sucesso!"});
   },
 
   async delete(request: Request, response: Response) {
@@ -88,7 +88,7 @@ export default {
 
     const user = await usersRepository.findOne({ email });
 
-    if (!user) return response.json({ error: "email não cadastrado" });
+    if (!user) return response.json({ error: "E-mail não cadastrado" });
 
     const token = crypto.randomBytes(20).toString("hex");
 
@@ -104,14 +104,16 @@ export default {
     await usersRepository.save(data);
 
     const transporter = nodemailer.createTransport({
-      host: "smtp.mailtrap.io",
-      port: 2525,
+      host: process.env.MAIL_HOST,
+      port: Number(process.env.MAIL_PORT),
       auth: {
-        user: "2f3e14e3ff17d5",
-        pass: "6f799b93fb14b4",
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS,
       },
     });
 
+
+    
     const handlebarOptions = {
       viewEngine: {
         extName: ".hbs",
@@ -136,12 +138,12 @@ export default {
       .sendMail(mailOptions)
       .then(() => {
         return response.json({
-          success: "email para redefinição de senha enviado",
+          success: "Email para redefinição de senha enviado",
         });
       })
       .catch((err) => {
         return response.json({
-          error: "não foi possível enviar o email. tente novamente",
+          error: "Não foi possível enviar o email. Tente novamente",
         });
       });
   },
@@ -153,14 +155,14 @@ export default {
       const usersRepository = getRepository(User);
       const user = await usersRepository.findOneOrFail({ email });
       if (!user) {
-        return response.json({ error: "não existe usuário com este email" });
+        return response.json({ error: "Não existe usuário com este email" });
       }
       if (token !== user.password_reset_token) {
-        return response.json({ error: "token inválido" });
+        return response.json({ error: "Token inválido" });
       }
       const now = new Date();
       if (now.getTime() > user.password_reset_expires) {
-        return response.json({ error: "token expirado, gere um novo" });
+        return response.json({ error: "Token expirado, gere um novo" });
       }
 
       const saltRounds = 10;
@@ -172,11 +174,11 @@ export default {
 
       await usersRepository.save(data);
 
-      response.status(200).json({ message: "Senha Redefinida" });
+      response.status(200).json({ success: "Senha Redefinida" });
     } catch (err) {
       response
         .status(400)
-        .json({ message: "Erro ao resetar senha. Tente novamente" });
+        .json({ error: "Erro ao resetar senha. Tente novamente" });
     }
   },
 };
