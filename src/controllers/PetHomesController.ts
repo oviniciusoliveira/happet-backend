@@ -9,9 +9,14 @@ import { Request, Response } from "express";
 
 export default {
   async index(request: Request, response: Response) {
+    const { accepted } = request.query;
     const petHomesRepository = getRepository(PetHome);
 
     const petHomes = await petHomesRepository.find({ relations: ["images"] });
+
+    if(accepted) {
+      petHomes.filter((petHome: any) => petHome.is_accepted)
+    }
 
     return response.json(petHomeView.renderMany(petHomes));
   },
