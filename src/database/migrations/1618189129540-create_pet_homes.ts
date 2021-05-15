@@ -8,11 +8,11 @@ export class createPetHomes1618189129540 implements MigrationInterface {
         columns: [
           {
             name: "id",
-            type: "varchar",
-            unsigned: true, // sempre um numero positivo
-            isPrimary: true,
+            type: "uuid",
             isGenerated: true,
             generationStrategy: "uuid",
+            unsigned: true,
+            isPrimary: true,
           },
           {
             name: "name",
@@ -20,15 +20,15 @@ export class createPetHomes1618189129540 implements MigrationInterface {
           },
           {
             name: "latitude",
-            type: "decimal",
-            scale: 10,
-            precision: 2,
+            type: "varchar",
+            // scale: 10,
+            // precision: 2,
           },
           {
             name: "longitude",
-            type: "decimal",
-            scale: 10,
-            precision: 2,
+            type: "varchar",
+            // scale: 10,
+            // precision: 2,
           },
           {
             name: "about",
@@ -55,7 +55,7 @@ export class createPetHomes1618189129540 implements MigrationInterface {
           {
             name: "whatsapp",
             type: "varchar",
-          }
+          },
         ],
       })
     );

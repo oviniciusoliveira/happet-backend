@@ -8,7 +8,7 @@ export class createUsers1619391264068 implements MigrationInterface {
         columns: [
           {
             name: "id",
-            type: "varchar",
+            type: "uuid",
             unsigned: true,
             isPrimary: true,
             isGenerated: true,
@@ -18,7 +18,7 @@ export class createUsers1619391264068 implements MigrationInterface {
           { name: "email", type: "varchar" },
           { name: "password", type: "varchar" },
           { name: "password_reset_token", type: "varchar" },
-          { name: "password_reset_expires", type: "int"},
+          { name: "password_reset_expires", type: "integer"},
         ],
       })
     );

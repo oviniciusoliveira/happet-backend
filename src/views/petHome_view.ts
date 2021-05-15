@@ -6,8 +6,8 @@ export default {
     return {
       id: petHome.id,
       name: petHome.name,
-      latitude: petHome.latitude,
-      longitude: petHome.longitude,
+      latitude: Number(petHome.latitude),
+      longitude: Number(petHome.longitude),
       about: petHome.about,
       instructions: petHome.instructions,
       opening_hours: petHome.opening_hours,

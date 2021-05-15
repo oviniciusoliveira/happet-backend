@@ -8,7 +8,7 @@ export class createImages1618195922251 implements MigrationInterface {
         columns: [
           {
             name: "id",
-            type: "text",
+            type: "uuid",
             unsigned: true,
             isPrimary: true,
             isGenerated: true,
@@ -20,7 +20,7 @@ export class createImages1618195922251 implements MigrationInterface {
           },
           {
             name: "pet_home_id",
-            type: "text",
+            type: "uuid",
           },
         ],
         foreignKeys: [
