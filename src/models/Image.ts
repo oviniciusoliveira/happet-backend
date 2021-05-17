@@ -13,7 +13,10 @@ export default class Image {
   id: string;
 
   @Column()
-  path: string;
+  public_id: string;
+
+  @Column()
+  url: string;
 
   @ManyToOne(() => PetHome, (petHome) => petHome.images)
   @JoinColumn({ name: "pet_home_id" })

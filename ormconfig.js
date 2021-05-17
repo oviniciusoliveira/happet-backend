@@ -1,14 +1,14 @@
 module.exports = {
   type: "postgres",
-  host: process.env.TYPEORM_HOST,
-  port: process.env.TYPEORM_PORT,
-  username: process.env.TYPEORM_USERNAME,
-  password: process.env.TYPEORM_PASSWORD,
-  database: process.env.TYPEORM_DATABASE,
-  migrations: [process.env.TYPEORM_MIGRATIONS],
+  host: "localhost",
+  port: 5432,
+  username: "postgres",
+  password: "123456",
+  database: "happet",
+  migrations: ["./src/database/migrations/*.ts"],
   synchronize: false,
-  entities: [process.env.TYPEORM_ENTITIES],
+  entities: ["./src/models/*.ts"],
   cli: {
-    migrationsDir: process.env.TYPEORM_MIGRATIONS_DIR,
+    migrationsDir: "./src/database/migrations",
   },
 };
