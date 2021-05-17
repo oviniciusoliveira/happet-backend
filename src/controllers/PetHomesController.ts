@@ -139,8 +139,8 @@ export default {
     // add new images to database
     if (requestImages) {
       requestImages.forEach(async (image) => {
-        const imageData = imageToDataURI(image);
-        const cloudinaryResponse = cloudinaryUpload(imageData);
+        const imageData = await imageToDataURI(image);
+        const cloudinaryResponse = await cloudinaryUpload(imageData);
         const imageToSave = imageRepository.create({
           petHome: id,
           ...cloudinaryResponse,
