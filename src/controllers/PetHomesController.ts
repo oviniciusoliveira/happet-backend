@@ -16,10 +16,12 @@ export default {
     const { accepted } = request.query;
     const petHomesRepository = getRepository(PetHome);
 
-    const petHomes = await petHomesRepository.find({ relations: ["images"] });
+    let petHomes = await petHomesRepository.find({ relations: ["images"] });
 
     if (accepted) {
-      petHomes.filter((petHome: any) => petHome.is_accepted);
+      petHomes = petHomes.filter((petHome) => {
+        return petHome.is_accepted;
+      });
     }
 
     return response.json(petHomeView.renderMany(petHomes));
@@ -46,7 +48,6 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends,
-      is_accepted,
       whatsapp,
     } = request.body;
 
@@ -70,7 +71,7 @@ export default {
       instructions,
       opening_hours,
       open_on_weekends: open_on_weekends === "true",
-      is_accepted: is_accepted === "true",
+      is_accepted: false,
       whatsapp,
       images,
     };
@@ -127,9 +128,7 @@ export default {
 
       images_ids.forEach(async (image_id) => {
         const imageToDelete = await imageRepository.findOneOrFail(image_id);
-        const imageDeleted = await cloudinaryDestroy(imageToDelete.public_id);
-        console.log("imageToDelete :", imageToDelete);
-        console.log("imageDeleted :", imageDeleted);
+        await cloudinaryDestroy(imageToDelete.public_id);
         await imageRepository.delete(image_id);
       });
     }
