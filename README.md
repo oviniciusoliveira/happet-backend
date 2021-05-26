@@ -126,6 +126,7 @@ Para manipular o código, recomendo utilizar o [VSCode](https://code.visualstudi
 #### **Server** ([NodeJS](https://nodejs.org/en/) + [TypeScript](https://www.typescriptlang.org/))
 
 #### **Backend** e **Banco de Dados** ([PostgreSQL](https://www.postgresql.org/)) hospedados no [Heroku](https://dashboard.heroku.com/)
+
 #### **Imagens** Hospedadas na [Cloudinary](https://cloudinary.com/)
 
 #### **Bibliotecas**
