@@ -125,7 +125,15 @@ Para manipular o código, recomendo utilizar o [VSCode](https://code.visualstudi
 
 #### **Server** ([NodeJS](https://nodejs.org/en/) + [TypeScript](https://www.typescriptlang.org/))
 
+<<<<<<< HEAD
 #### **Backend** e **Banco de Dados** ([PostgreSQL](https://www.postgresql.org/)) hospedados no [Heroku](https://dashboard.heroku.com/)
+=======
+<<<<<<< HEAD
+#### **Backend** e **Banco de Dados** ([PostgreSQL](https://www.postgresql.org/)) hospedados no [Heroku](https://dashboard.heroku.com/)
+=======
+#### **Backend** e **Banco de Dados** (PostgreSQL) hospedados no [Heroku](https://dashboard.heroku.com/)
+>>>>>>> 99bf1c0b9dd93dd5c7ea2b7dac8acf7bc0293903
+>>>>>>> 16c05c7363c41fe99027750dda6c59082db6e4f3
 #### **Imagens** Hospedadas na [Cloudinary](https://cloudinary.com/)
 
 #### **Bibliotecas**
